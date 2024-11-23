@@ -1,8 +1,8 @@
 node {
-   def registryProjet='registry.gitlab.com/xavki/presentations-jenkins/wartest'
+   def registryProjet='registry.gitlab.com/alioune3112/container-registry'
    def IMAGE="${registryProjet}:version-${env.BUILD_ID}"
     stage('Build - Clone') {
-          git 'https://github.com/priximmo/war-build-docker.git'
+          git 'https://github.com/Alzo98/warTest-jenkins.git'
     }
     stage('Build - Maven package'){
             sh 'mvn package'
@@ -26,7 +26,7 @@ node {
           }
     }
     stage('Deploy - Clone') {
-          git 'https://github.com/priximmo/jenkins-ansible-docker.git'
+          git 'https://github.com/Alzo98/jenkins-ansible-docker.git'
     }
     stage('Deploy - End') {
       ansiblePlaybook (
