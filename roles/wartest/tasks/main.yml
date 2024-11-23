@@ -1,24 +1,42 @@
-- name: install pip
+- name: Install pip
   apt:
     name: python3-pip
     state: present
+  become: true
 
-- name: pip install docker-py
-  pip:
-    name:
-      - docker
-      - docker-compose
-- name: add user ansible in docker group
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+  become: true
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+- name: Ensure user is in docker group
   user:
     name: jenkins
     groups: docker
     append: yes
   become: true
-  
-- name: run container
+
+- name: Install pip packages docker and docker-compose
+  pip:
+    name:
+      - docker
+      - docker-compose
+  become: true
+
+- name: Run container
   docker_container:
     name: wartest
-    image: "{{ image }}"
-    ports: 8081:8080
+    image: "{{ image }}"
+    ports:
+      - "8081:8080"
     state: started
- 
+    docker_host: "unix:///var/run/docker.sock"
+  become: true
