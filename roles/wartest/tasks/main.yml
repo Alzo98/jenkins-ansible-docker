@@ -10,7 +10,7 @@
       - docker-compose
 - name: add user ansible in docker group
   user:
-    name: "{{ ansible_user }}"
+    name: jenkins
     groups: docker
     append: yes
   become: true
